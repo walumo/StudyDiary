@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyDiary
 {
@@ -33,7 +31,15 @@ namespace StudyDiary
                 Console.WriteLine("-----------------");
 
                 Console.WriteLine("Description: {0}", topic.Description);
-                Console.WriteLine("\nSource(s) used: {0}\n", topic.Source);
+                Console.WriteLine("Tasks: \n");
+                if (topic.Tasks.NotesList.Count() > 0)
+                {
+                    foreach (string note in topic.Tasks.Notes)
+                    {
+                        Console.WriteLine("{0}. {1}",topic.Tasks.NotesList.IndexOf(note)+1 , note);
+                    }
+
+                } Console.WriteLine("\nSource(s) used: {0}\n", topic.Source);
             }
             Console.Write("Press enter to continue...");
             Console.ReadKey();
@@ -64,7 +70,7 @@ namespace StudyDiary
                 try
                 {
                     string str = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(str)) { buffer.EstimatedTimeToMaster = 0; break; }
+                    if (String.IsNullOrWhiteSpace(str)) { buffer.EstimatedTimeToMaster = default; break; }
                     else if (!String.IsNullOrWhiteSpace(str)) { buffer.EstimatedTimeToMaster = Convert.ToDouble(str); break; }
 
                     else continue;
@@ -87,15 +93,20 @@ namespace StudyDiary
             {
                 try
                 {
-                    Console.Write("Enter day for completion date (dd): ");
+                    Console.Write("Enter date for completion (dd.mm.yyyy): ");
                     string str = Console.ReadLine();
-                    if(String.IsNullOrWhiteSpace(str) || Convert.ToInt32(str) < 1 || Convert.ToInt32(str) > 31) {dtHelper.Add(1); break;}
-                    else dtHelper.Add(Convert.ToInt32(str));
+                    if (String.IsNullOrWhiteSpace(str)) { buffer.CompletionDate = new DateTime(DateTime.Now.Year + 1, 1, 1); break; }
+                    else
+                    {
+                        string[] dtParser = new string[3];
+                        dtParser = str.Split('.');
+                        buffer.CompletionDate = new DateTime(Convert.ToInt32(dtParser[2]), Convert.ToInt32(dtParser[1]), Convert.ToInt32(dtParser[0]));
+                    }
                     break;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    Console.WriteLine(e.Message);
                     Console.WriteLine("Something went wrong, try again");
                     Console.ReadKey();
                 }
@@ -105,10 +116,15 @@ namespace StudyDiary
             {
                 try
                 {
-                    Console.Write("Enter month for completion date (mm): ");
+                    Console.Write("Enter time for completion (hh:mm): ");
                     string str = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(str) || Convert.ToInt32(str) < 1 || Convert.ToInt32(str) > 12) { dtHelper.Add(1); break; }
-                    else dtHelper.Add(Convert.ToInt32(str));
+                    if (String.IsNullOrWhiteSpace(str)) { buffer.CompletionDate.AddHours(12); break; }
+                    else
+                    {
+                        string[] dtParser = new string[2];
+                        dtParser = str.Split(':');
+                        buffer.CompletionDate.AddHours(Convert.ToDouble(dtParser[0])).AddMinutes(Convert.ToDouble(dtParser[1]));
+                    }
                     break;
                 }
                 catch (Exception e)
@@ -119,71 +135,72 @@ namespace StudyDiary
                 }
             }
 
-            while (true)
-            {
-                try
-                {
-                    Console.Write("Enter year for completion date (yyyy): ");
-                    string str = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(str) || Convert.ToInt32(str) < thisYear || Convert.ToInt32(str) > 2100) { dtHelper.Add(thisYear+1); break; }
-                    else dtHelper.Add(Convert.ToInt32(str));
-                    break;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    Console.WriteLine("Something went wrong, try again");
-                    Console.ReadKey();
-                }
-            }
 
-            while (true)
-            {
-                try
-                {
-                    Console.Write("Enter hour for completion time (hh): ");
-                    string str = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(str) || Convert.ToInt32(str) < 00 || Convert.ToInt32(str) > 23) { dtHelper.Add(12); break; }
-                    else dtHelper.Add(Convert.ToInt32(str));
-                    break;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    Console.WriteLine("Something went wrong, try again");
-                    Console.ReadKey();
-                }
-            }
-
-            while (true)
-            {
-                try
-                {
-                    Console.Write("Enter minutes for completion time (mm): ");
-                    string str = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(str) || Convert.ToInt32(str) < 00 || Convert.ToInt32(str) > 59) { dtHelper.Add(00); break; }
-                    else dtHelper.Add(Convert.ToInt32(str));
-                    break;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    Console.WriteLine("Something went wrong, try again");
-                    Console.ReadKey();
-                }
-            }
-
-            buffer.CompletionDate = new DateTime(
-                dtHelper[2],
-                dtHelper[1],
-                dtHelper[0],
-                dtHelper[3],
-                dtHelper[4],
-                00);
             Console.Write("Press enter to continue...");
             Console.ReadKey();
             Console.Clear();
             return buffer;
+
+           
+        }
+        public static Task NewTask(int taskCount)
+        {
+            Task buffer = new Task();
+
+            buffer.Id = taskCount + 1;
+
+            Console.Clear();
+            Console.Write("Give a title for task: ");
+
+            buffer.Title = Console.ReadLine();
+
+            buffer.Done = false;
+
+            while (true)
+            {
+                try
+                {
+                    Console.Write("\nEnter notes for this task (blank note to move on): ");
+                    string str = Console.ReadLine();
+                    if (String.IsNullOrWhiteSpace(str)) break;
+                    else buffer.NotesList.Add(str);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Something went wrong, try again");
+                    Console.ReadKey();
+                }
+            }
+
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Enter date for completion (dd.mm.yyyy): ");
+                    string str = Console.ReadLine();
+                    if (String.IsNullOrWhiteSpace(str)) { buffer.Deadline = new DateTime(DateTime.Now.Year + 1, 1, 1); break;}
+                    else
+                    {
+                        string[] dtParser = new string[3];
+                        dtParser = str.Split('.');
+                        buffer.Deadline = new DateTime(Convert.ToInt32(dtParser[2]), Convert.ToInt32(dtParser[1]), Convert.ToInt32(dtParser[0]));
+                    }
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Something went wrong, try again");
+                    Console.ReadKey();
+                }
+            }
+
+            Console.Write("Press enter to continue...");
+            Console.ReadKey();
+            Console.Clear();
+            return buffer;
+
         }
     }
 }

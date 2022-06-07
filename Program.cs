@@ -12,8 +12,10 @@ namespace StudyDiary
 
         static void Main(string[] args)
         {
+
             int option;
             List<Topic> myTopics = new List<Topic>();
+            List<Task> myTasks = new List<Task>();
 
             while (true)
             {
@@ -22,15 +24,16 @@ namespace StudyDiary
                 Console.WriteLine("Study Diary v.1.0.0");
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.WriteLine("\nOptions:");
-                Console.WriteLine("1) to enter new topic");
-                Console.WriteLine("2) to list your topics");
-                Console.WriteLine("3) to exit application\n");
+                Console.WriteLine("1) Enter new topic");
+                Console.WriteLine("2) List your topics");
+                Console.WriteLine("3) Add notes to topics");
+                Console.WriteLine("4) Exit application\n");
                 Console.Write("Your selection: ");
-              
+
                 try
                 {
                     string getValue = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 3) continue;
+                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 4) continue;
                     option = Convert.ToInt32(getValue);
                 }
                 catch (Exception e)
@@ -41,7 +44,7 @@ namespace StudyDiary
                     Console.ReadKey();
                     continue;
                 }
-                
+
 
                 switch (option)
                 {
@@ -52,6 +55,31 @@ namespace StudyDiary
                         Diary.ShowTopics(myTopics);
                         break;
                     case 3:
+                        int topicIndex;
+                        Console.Clear();
+                        Console.WriteLine("TOPICS: ");
+                        Console.WriteLine("---------");
+                        Console.WriteLine("Choose a topic to add notes to: ");
+                        foreach (Topic topic in myTopics)
+                        {
+                            Console.WriteLine("{0}. {1}", topic.Id, topic.Title.ToUpper());
+                        }
+                        Console.Write("\nYour selection: ");
+                        try
+                        {
+                            topicIndex = Convert.ToInt32(Console.ReadLine());
+                            if (topicIndex > 0 || topicIndex <= myTopics.Count())
+                            {
+                                myTopics[topicIndex-1].Tasks = Diary.NewTask(myTasks.Count());
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            break;
+                        }
+                        break;
+                    case 4:
                         Environment.Exit(0);
                         break;
                 }
