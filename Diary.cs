@@ -22,18 +22,20 @@ namespace StudyDiary
                 Console.WriteLine("Topic number: {0}", topic.Id);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("-----------------");
-
                 Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(topic.Title); ; Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"To master (hours): {topic.EstimatedTimeToMaster}");
                 Console.WriteLine($"Date to be completed: {topic.CompletionDate}");
                 Console.WriteLine("Time until completion: {0}", topic.CompletionDate-DateTime.Now);
                 Console.WriteLine("Hours spent: {0}", topic.TimeSpent);
                 Console.WriteLine("-----------------");
-
                 Console.WriteLine("Description: {0}", topic.Description);
-                Console.WriteLine("Tasks: \n");
+                
                 if (topic.Tasks.NotesList.Count() > 0)
                 {
+                    Console.WriteLine("Tasks: \n");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine(topic.Tasks.Title);
+                    Console.ForegroundColor = ConsoleColor.White;
                     foreach (string note in topic.Tasks.Notes)
                     {
                         Console.WriteLine("{0}. {1}",topic.Tasks.NotesList.IndexOf(note)+1 , note);
@@ -67,20 +69,10 @@ namespace StudyDiary
 
             while (true)
             {
-                try
-                {
-                    string str = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(str)) { buffer.EstimatedTimeToMaster = default; break; }
-                    else if (!String.IsNullOrWhiteSpace(str)) { buffer.EstimatedTimeToMaster = Convert.ToDouble(str); break; }
-
-                    else continue;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    Console.WriteLine("You can enter only numerical values!");
-                    throw;
-                }
+                string str = Console.ReadLine();
+                if (String.IsNullOrWhiteSpace(str) || !Double.TryParse(str, out double result)) { buffer.EstimatedTimeToMaster = 1; break; }
+                buffer.EstimatedTimeToMaster = Convert.ToDouble(str);
+                break;
             }
 
             Console.Write("Enter source used if any (if not, press Enter): ");
@@ -98,16 +90,22 @@ namespace StudyDiary
                     if (String.IsNullOrWhiteSpace(str)) { buffer.CompletionDate = new DateTime(DateTime.Now.Year + 1, 1, 1); break; }
                     else
                     {
-                        string[] dtParser = new string[3];
-                        dtParser = str.Split('.');
-                        buffer.CompletionDate = new DateTime(Convert.ToInt32(dtParser[2]), Convert.ToInt32(dtParser[1]), Convert.ToInt32(dtParser[0]));
+                        try
+                        {
+                            string[] dtParser = new string[3];
+                            dtParser = str.Split('.');
+                            buffer.CompletionDate = new DateTime(Convert.ToInt32(dtParser[2]), Convert.ToInt32(dtParser[1]), Convert.ToInt32(dtParser[0]));
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
                     }
-                    break;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
-                    Console.WriteLine("Something went wrong, try again");
+                    Console.WriteLine("Date must be formatted dd.mm.yyyy, or you can leave the input blank.");
                     Console.ReadKey();
                 }
             }
@@ -121,16 +119,23 @@ namespace StudyDiary
                     if (String.IsNullOrWhiteSpace(str)) { buffer.CompletionDate.AddHours(12); break; }
                     else
                     {
-                        string[] dtParser = new string[2];
-                        dtParser = str.Split(':');
-                        buffer.CompletionDate.AddHours(Convert.ToDouble(dtParser[0])).AddMinutes(Convert.ToDouble(dtParser[1]));
+                        try
+                        {
+                            string[] dtParser = new string[2];
+                            dtParser = str.Split(':');
+                            buffer.CompletionDate.AddHours(Convert.ToDouble(dtParser[0])).AddMinutes(Convert.ToDouble(dtParser[1]));
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
                     }
                     break;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    Console.WriteLine(e);
-                    Console.WriteLine("Something went wrong, try again");
+                    Console.WriteLine("Time must be formatted as HH:MM, or you can leave the input blank.");
                     Console.ReadKey();
                 }
             }
