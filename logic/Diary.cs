@@ -22,7 +22,7 @@ namespace StudyDiary
                 Console.WriteLine("Topic number: {0}", topic.Id);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("-----------------");
-                Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(topic.Title); ; Console.ForegroundColor = ConsoleColor.White;
+                Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(topic.Title.ToUpper()); ; Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"To master (hours): {topic.EstimatedTimeToMaster}");
                 Console.WriteLine($"Date to be completed: {topic.CompletionDate}");
                 Console.WriteLine("Time until completion: {0}", topic.CompletionDate-DateTime.Now);
