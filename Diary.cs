@@ -34,7 +34,9 @@ namespace StudyDiary
                 {
                     Console.WriteLine("Tasks: \n");
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine(topic.Tasks.Title);
+                    Console.Write(topic.Tasks.Title.ToUpper());
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.WriteLine(" || Priority: {0}", topic.Tasks.PriorityProperty);
                     Console.ForegroundColor = ConsoleColor.White;
                     foreach (string note in topic.Tasks.Notes)
                     {
@@ -159,13 +161,30 @@ namespace StudyDiary
 
             buffer.Title = Console.ReadLine();
 
+            while (true)
+            {
+                try
+                {
+                    Console.Write("Priority for this task(1=high, 2=medium, 3=low); ");
+                    string str = Console.ReadLine();
+                    if (String.IsNullOrWhiteSpace(str) || int.TryParse(str, out int result)) { buffer.PriorityProperty = (TaskPriority)Convert.ToInt32(str) - 1; break; }
+                    else buffer.PriorityProperty = TaskPriority.Low;
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Something went wrong, try again");
+                } 
+            }
+
             buffer.Done = false;
 
             while (true)
             {
                 try
                 {
-                    Console.Write("\nEnter notes for this task (blank note to move on): ");
+                    Console.Write("Enter notes for this task (blank note to move on): ");
                     string str = Console.ReadLine();
                     if (String.IsNullOrWhiteSpace(str)) break;
                     else buffer.NotesList.Add(str);
