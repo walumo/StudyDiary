@@ -16,7 +16,7 @@ namespace StudyDiary
 
             try
             {
-             v   if (File.Exists(Environment.CurrentDirectory + @"\topics\topic.txt")) myTopics = Load.LoadAll();
+                if (File.Exists(Environment.CurrentDirectory + @"\topics\topic.txt")) myTopics = Load.LoadAll();
             }
             catch (Exception ex)
             {
