@@ -49,6 +49,7 @@
     <Compile Include="logic\Diary.cs" />
     <Compile Include="class\Task.cs" />
     <Compile Include="class\Topic.cs" />
+    <Compile Include="logic\Load.cs" />
     <Compile Include="logic\Save.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

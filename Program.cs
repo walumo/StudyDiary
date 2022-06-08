@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,7 +19,7 @@ namespace StudyDiary
 
             try
             {
-                //myTopics = Load.LoadAll();
+                if(File.Exists(Environment.CurrentDirectory + @"\topics\topic.txt")) myTopics = Load.LoadAll();
             }
             catch (Exception ex)
             {
