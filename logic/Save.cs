@@ -10,6 +10,7 @@ namespace StudyDiary
 
         public static void SaveAll(List<Topic> list)
         {
+            string topicPath = Environment.CurrentDirectory + @"\topics\topic.txt";
             List<string> topics = new List<string>();
             foreach (Topic topic in list)
             {
@@ -17,8 +18,15 @@ namespace StudyDiary
             }
 
             if (!Directory.Exists(@".\topics")) Directory.CreateDirectory("topics");
-            string topicPath = Environment.CurrentDirectory + @"\topics\topic.txt";
-            File.WriteAllLines(topicPath, topics);
+
+            if (!File.Exists(topicPath))
+            {
+                File.WriteAllLines(topicPath, topics);
+            }
+            else if (File.Exists(topicPath))
+            {
+                File.AppendAllLines(topicPath, topics);
+            }
         }
     }
 }
