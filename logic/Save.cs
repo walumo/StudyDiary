@@ -40,17 +40,18 @@ namespace StudyDiary
                         taskBuffer.Add(counter.ToString() + ". " + note);
                         counter++;
                     }
-                    string taskPath = @"C:\Users\MiikkaHakulinen\source\repos\StudyDiary\topics\tasksfortopic" + topic.Id.ToString() +".txt";
+
+                    if (!Directory.Exists(@".\topics")) Directory.CreateDirectory("topics");
+                    string taskPath = Environment.CurrentDirectory + @"\topics\tasksfortopic" + topic.Id.ToString() + ".txt";
                     File.WriteAllLines(taskPath, taskBuffer);
 
-                    string notePath = @"C:\Users\MiikkaHakulinen\source\repos\StudyDiary\topics\topic" + topic.Id.ToString() + ".txt";
+                    string notePath = Environment.CurrentDirectory + @"\topics\topic" + topic.Id.ToString() + ".txt";
                     File.WriteAllLines(notePath, topicBuffer);
                 }
             }
             catch (Exception ex)
             {
-                Console.Write("There was an error: ");
-                Console.WriteLine(ex.Message);
+                Console.Write("There was an error: " + ex.Message);
                 throw;
             }
         }
