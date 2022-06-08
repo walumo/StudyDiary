@@ -16,8 +16,7 @@ namespace StudyDiary
 
             foreach (string item in File.ReadAllLines(Environment.CurrentDirectory + @"\topics\topic.txt").ToList())
             {
-                string str = (JsonConvert.SerializeObject(item));
-                Topic dsTopic = JsonConvert.DeserializeObject<Topic>(str);
+                Topic dsTopic = JsonConvert.DeserializeObject<Topic>(item);
                 buffer.Add(dsTopic);
             }
             return buffer;
