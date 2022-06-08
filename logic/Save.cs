@@ -18,15 +18,7 @@ namespace StudyDiary
             }
 
             if (!Directory.Exists(@".\topics")) Directory.CreateDirectory("topics");
-
-            if (!File.Exists(topicPath))
-            {
-                File.WriteAllLines(topicPath, topics);
-            }
-            else if (File.Exists(topicPath))
-            {
-              File.WriteAllLines(topicPath, topics);
-            }
+            File.WriteAllLines(topicPath, topics);
         }
     }
 }
