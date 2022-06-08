@@ -46,11 +46,15 @@
     <Compile Include="logic\Diary.cs" />
     <Compile Include="class\Task.cs" />
     <Compile Include="class\Topic.cs" />
+    <Compile Include="logic\Save.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="topics\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

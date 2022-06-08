@@ -47,7 +47,6 @@ namespace StudyDiary
             }
             Console.Write("Press enter to continue...");
             Console.ReadKey();
-
         }
         //Add topics
         public static Topic NewTopic(List<Topic> list)
@@ -60,17 +59,14 @@ namespace StudyDiary
 
             Console.Clear();
             Console.Write("Give a title for topic: ");
-
             buffer.Title = Console.ReadLine();
 
             Console.Write("Give a description for topic: ");
-
             buffer.Description = Console.ReadLine();
-
-            Console.Write("Enter estimated time to master: ");
 
             while (true)
             {
+                Console.Write("Enter estimated time to master: ");
                 string str = Console.ReadLine();
                 if (String.IsNullOrWhiteSpace(str) || !Double.TryParse(str, out double result)) { buffer.EstimatedTimeToMaster = 1; break; }
                 buffer.EstimatedTimeToMaster = Convert.ToDouble(str);
@@ -78,9 +74,7 @@ namespace StudyDiary
             }
 
             Console.Write("Enter source used if any (if not, press Enter): ");
-
             buffer.Source = Console.ReadLine();
-
             buffer.inProgress = false;
 
             while (true)
@@ -141,24 +135,18 @@ namespace StudyDiary
                     Console.ReadKey();
                 }
             }
-
-
             Console.Write("Press enter to continue...");
             Console.ReadKey();
             Console.Clear();
             return buffer;
-
-           
         }
         public static Task NewTask(int taskCount)
         {
             Task buffer = new Task();
-
             buffer.Id = taskCount + 1;
 
             Console.Clear();
             Console.Write("Give a title for task: ");
-
             buffer.Title = Console.ReadLine();
 
             while (true)
@@ -167,7 +155,7 @@ namespace StudyDiary
                 {
                     Console.Write("Priority for this task(1=high, 2=medium, 3=low); ");
                     string str = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(str) || int.TryParse(str, out int result)) { buffer.PriorityProperty = (TaskPriority)Convert.ToInt32(str) - 1; break; }
+                    if (!String.IsNullOrWhiteSpace(str) || int.TryParse(str, out int result)) { buffer.PriorityProperty = (TaskPriority)Convert.ToInt32(str) - 1; break; }
                     else buffer.PriorityProperty = TaskPriority.Low;
                     break;
                 }
@@ -219,12 +207,10 @@ namespace StudyDiary
                     Console.ReadKey();
                 }
             }
-
             Console.Write("Press enter to continue...");
             Console.ReadKey();
             Console.Clear();
             return buffer;
-
         }
     }
 }
