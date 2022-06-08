@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace StudyDiary
 {
@@ -12,17 +10,17 @@ namespace StudyDiary
     {
         static void Main(string[] args)
         {
-           
+
             int option;
             List<Topic> myTopics = new List<Topic>();
 
             try
             {
-                if (File.Exists(Environment.CurrentDirectory + @"\topics\topic.txt")) myTopics = Load.LoadAll();
+             v   if (File.Exists(Environment.CurrentDirectory + @"\topics\topic.txt")) myTopics = Load.LoadAll();
             }
             catch (Exception ex)
             {
-                Console.Write("Something went wrong: "+ex.Message);
+                Console.Write("Something went wrong: " + ex.Message);
                 Console.ReadKey();
             }
             while (true)
@@ -72,19 +70,19 @@ namespace StudyDiary
                             Console.WriteLine("{0}. {1}", topic.Id, topic.Title.ToUpper());
                         }
                         Console.Write("\nYour selection: ");
-                            try
+                        try
+                        {
+                            topicIndex = Convert.ToInt32(Console.ReadLine());
+                            if (topicIndex > 0 || topicIndex <= myTopics.Count())
                             {
-                                topicIndex = Convert.ToInt32(Console.ReadLine());
-                                if (topicIndex > 0 || topicIndex <= myTopics.Count())
-                                {
-                                    myTopics[topicIndex-1].Tasks = Diary.NewTask(myTopics[topicIndex-1].Tasks.Notes.Count());
-                                }
+                                myTopics[topicIndex - 1].Tasks = Diary.NewTask(myTopics[topicIndex - 1].Tasks.Notes.Count());
                             }
-                            catch (Exception e)
-                            {
-                                Console.WriteLine(e.Message);
-                                break;
-                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            break;
+                        }
                         break;
                     case 4:
                         Save.SaveAll(myTopics);

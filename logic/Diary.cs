@@ -21,14 +21,14 @@ namespace StudyDiary
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("Topic number: {0}", topic.Id);
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine("-----------------");
+                Console.WriteLine("****************");
                 Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(topic.Title.ToUpper()); ; Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"To master (hours): {topic.EstimatedTimeToMaster}");
                 Console.WriteLine($"Date to be completed: {topic.CompletionDate}");
                 Console.WriteLine("Time until completion: {0}", topic.CompletionDate-DateTime.Now);
                 Console.WriteLine("Hours spent: {0}", topic.TimeSpent);
-                Console.WriteLine("-----------------");
-                Console.WriteLine("Description: {0}", topic.Description);
+                Console.WriteLine("----------------");
+                Console.WriteLine("Description: {0}\n", topic.Description);
                 
                 if (topic.Tasks.NotesList.Count() > 0)
                 {
@@ -43,7 +43,8 @@ namespace StudyDiary
                         Console.WriteLine("- {0}", note);
                     }
 
-                } Console.WriteLine("\nSource(s) used: {0}\n", topic.Source);
+                } 
+                Console.WriteLine("\nSource(s) used: {0}\n", topic.Source);
             }
             Console.Write("Press enter to continue...");
             Console.ReadKey();
@@ -65,7 +66,7 @@ namespace StudyDiary
             buffer.Description = Console.ReadLine();
 
             while (true)
-            {
+            { //if user gives no input, or TryParse returns false, enter value 1 to EstimatedTimeToMaster
                 Console.Write("Enter estimated time to master: ");
                 string str = Console.ReadLine();
                 if (String.IsNullOrWhiteSpace(str) || !Double.TryParse(str, out double result)) { buffer.EstimatedTimeToMaster = 1; break; }
@@ -141,6 +142,7 @@ namespace StudyDiary
             Console.Clear();
             return buffer;
         }
+        // Add tasks
         public static Task NewTask(int taskCount)
         {
             Task buffer = new Task();
