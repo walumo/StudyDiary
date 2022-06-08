@@ -1,57 +1,31 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace StudyDiary.logic
+namespace StudyDiary
 {
-    public static class Save
+    public class Save
     {
+
         public static void SaveAll(List<Topic> list)
         {
-
-            try
+            string topicPath = Environment.CurrentDirectory + @"\topics\topic.txt";
+            List<string> topics = new List<string>();
+            foreach (Topic topic in list)
             {
-                foreach (Topic topic in list)
-                {
-                    List<string> topicBuffer = new List<string>();
-                    List<string> taskBuffer = new List<string>();
-                    int counter = 1;
-                    topicBuffer.Add(topic.Id.ToString());
-                    topicBuffer.Add(topic.Title);
-                    topicBuffer.Add(topic.Description);
-                    topicBuffer.Add(topic.EstimatedTimeToMaster.ToString());
-                    topicBuffer.Add(topic.TimeSpent.ToString());
-                    topicBuffer.Add(topic.Source);
-                    topicBuffer.Add(topic.StartLearningDate.ToString());
-                    topicBuffer.Add(topic.inProgress.ToString());
-                    topicBuffer.Add(topic.CompletionDate.ToString());
-
-                    taskBuffer.Add(topic.Tasks.Id.ToString());
-                    taskBuffer.Add(topic.Tasks.Title);
-                    taskBuffer.Add(topic.Tasks.Description);
-                    taskBuffer.Add(topic.Tasks.Deadline.ToString());
-                    taskBuffer.Add(topic.Tasks.Done.ToString());
-                    taskBuffer.Add(topic.Tasks.PriorityProperty.ToString());
-                    foreach (string note in topic.Tasks.Notes)
-                    {
-                        taskBuffer.Add(counter.ToString() + ". " + note);
-                        counter++;
-                    }
-                    string taskPath = @"C:\Users\MiikkaHakulinen\source\repos\StudyDiary\topics\tasksfortopic" + topic.Id.ToString() +".txt";
-                    File.WriteAllLines(taskPath, taskBuffer);
-
-                    string notePath = @"C:\Users\MiikkaHakulinen\source\repos\StudyDiary\topics\topic" + topic.Id.ToString() + ".txt";
-                    File.WriteAllLines(notePath, topicBuffer);
-                }
+                topics.Add(JsonConvert.SerializeObject(topic));
             }
-            catch (Exception ex)
+
+            if (!Directory.Exists(@".\topics")) Directory.CreateDirectory("topics");
+
+            if (!File.Exists(topicPath))
             {
-                Console.Write("There was an error: ");
-                Console.WriteLine(ex.Message);
-                throw;
+                File.WriteAllLines(topicPath, topics);
+            }
+            else if (File.Exists(topicPath))
+            {
+                File.AppendAllLines(topicPath, topics);
             }
         }
     }

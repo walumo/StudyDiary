@@ -93,13 +93,14 @@ namespace StudyDiary
                             buffer.CompletionDate = new DateTime(Convert.ToInt32(dtParser[2]), Convert.ToInt32(dtParser[1]), Convert.ToInt32(dtParser[0]));
                             break;
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+                            Console.WriteLine(e.Message);
                             throw;
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Date must be formatted dd.mm.yyyy, or you can leave the input blank.");
                     Console.ReadKey();
@@ -122,12 +123,12 @@ namespace StudyDiary
                             buffer.CompletionDate.AddHours(Convert.ToDouble(dtParser[0])).AddMinutes(Convert.ToDouble(dtParser[1]));
                             break;
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
+                            Console.WriteLine(e.Message);
                             throw;
                         }
                     }
-                    break;
                 }
                 catch (Exception)
                 {
