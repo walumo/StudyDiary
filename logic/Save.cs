@@ -1,59 +1,24 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyDiary
 {
-    public static class Save
+    public class Save
     {
+
         public static void SaveAll(List<Topic> list)
         {
-
-            try
+            List<string> topics = new List<string>();
+            foreach (Topic topic in list)
             {
-                foreach (Topic topic in list)
-                {
-                    List<string> topicBuffer = new List<string>();
-                    List<string> taskBuffer = new List<string>();
-                    int counter = 1;
-                    topicBuffer.Add(topic.Id.ToString());
-                    topicBuffer.Add(topic.Title);
-                    topicBuffer.Add(topic.Description);
-                    topicBuffer.Add(topic.EstimatedTimeToMaster.ToString());
-                    topicBuffer.Add(topic.TimeSpent.ToString());
-                    topicBuffer.Add(topic.Source);
-                    topicBuffer.Add(topic.StartLearningDate.ToString());
-                    topicBuffer.Add(topic.inProgress.ToString());
-                    topicBuffer.Add(topic.CompletionDate.ToString());
-
-                    taskBuffer.Add(topic.Tasks.Id.ToString());
-                    taskBuffer.Add(topic.Tasks.Title);
-                    taskBuffer.Add(topic.Tasks.Description);
-                    taskBuffer.Add(topic.Tasks.Deadline.ToString());
-                    taskBuffer.Add(topic.Tasks.Done.ToString());
-                    taskBuffer.Add(topic.Tasks.PriorityProperty.ToString());
-                    foreach (string note in topic.Tasks.Notes)
-                    {
-                        taskBuffer.Add(counter.ToString() + ". " + note);
-                        counter++;
-                    }
-
-                    if (!Directory.Exists(@".\topics")) Directory.CreateDirectory("topics");
-                    string taskPath = Environment.CurrentDirectory + @"\topics\tasksfortopic" + topic.Id.ToString() + ".txt";
-                    File.WriteAllLines(taskPath, taskBuffer);
-
-                    string notePath = Environment.CurrentDirectory + @"\topics\topic" + topic.Id.ToString() + ".txt";
-                    File.WriteAllLines(notePath, topicBuffer);
-                }
+                topics.Add(JsonConvert.SerializeObject(topic));
             }
-            catch (Exception ex)
-            {
-                Console.Write("There was an error: " + ex.Message);
-                throw;
-            }
+
+            if (!Directory.Exists(@".\topics")) Directory.CreateDirectory("topics");
+            string topicPath = Environment.CurrentDirectory + @"\topics\topic.txt";
+            File.WriteAllLines(topicPath, topics);
         }
     }
 }

@@ -11,10 +11,20 @@ namespace StudyDiary
     {
         static void Main(string[] args)
         {
+           
             int option;
             List<Topic> myTopics = new List<Topic>();
             List<Task> myTasks = new List<Task>();
 
+            try
+            {
+                //myTopics = Load.LoadAll();
+            }
+            catch (Exception ex)
+            {
+                Console.Write("Something went wrong: "+ex.Message);
+                Console.ReadKey();
+            }
             while (true)
             {
                 Console.Clear();
@@ -34,7 +44,7 @@ namespace StudyDiary
                     if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 4) continue;
                     option = Convert.ToInt32(getValue);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.Clear();
                     Console.WriteLine("Invalid input!");
