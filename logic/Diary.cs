@@ -40,7 +40,7 @@ namespace StudyDiary
                     Console.ForegroundColor = ConsoleColor.White;
                     foreach (string note in topic.Tasks.Notes)
                     {
-                        Console.WriteLine("{0}. {1}",topic.Tasks.NotesList.IndexOf(note)+1 , note);
+                        Console.WriteLine("- {0}", note);
                     }
 
                 } Console.WriteLine("\nSource(s) used: {0}\n", topic.Source);

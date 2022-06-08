@@ -25,7 +25,7 @@ namespace StudyDiary
             }
             else if (File.Exists(topicPath))
             {
-                File.AppendAllLines(topicPath, topics);
+              File.WriteAllLines(topicPath, topics);
             }
         }
     }
