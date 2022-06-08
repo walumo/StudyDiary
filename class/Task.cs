@@ -14,7 +14,7 @@ namespace StudyDiary
         public bool Done { get; set; }
 
         public TaskPriority PriorityProperty { get; set; } = TaskPriority.Medium;
-        public List<string> Notes
+        internal List<string> Notes
         {
             get { return NotesList; }
             set { NotesList = value; }

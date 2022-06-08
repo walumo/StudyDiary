@@ -15,11 +15,10 @@ namespace StudyDiary
            
             int option;
             List<Topic> myTopics = new List<Topic>();
-            List<Task> myTasks = new List<Task>();
 
             try
             {
-                if(File.Exists(Environment.CurrentDirectory + @"\topics\topic.txt")) myTopics = Load.LoadAll();
+                if (File.Exists(Environment.CurrentDirectory + @"\topics\topic.txt")) myTopics = Load.LoadAll();
             }
             catch (Exception ex)
             {
@@ -78,7 +77,7 @@ namespace StudyDiary
                                 topicIndex = Convert.ToInt32(Console.ReadLine());
                                 if (topicIndex > 0 || topicIndex <= myTopics.Count())
                                 {
-                                    myTopics[topicIndex-1].Tasks = Diary.NewTask(myTasks.Count());
+                                    myTopics[topicIndex-1].Tasks = Diary.NewTask(myTopics[topicIndex-1].Tasks.Notes.Count());
                                 }
                             }
                             catch (Exception e)
