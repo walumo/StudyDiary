@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudyDiary.logic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,10 +10,8 @@ namespace StudyDiary
 
     class Program
     {
-
         static void Main(string[] args)
         {
-
             int option;
             List<Topic> myTopics = new List<Topic>();
             List<Task> myTasks = new List<Task>();
@@ -45,7 +44,6 @@ namespace StudyDiary
                     continue;
                 }
 
-
                 switch (option)
                 {
                     case 1:
@@ -65,21 +63,22 @@ namespace StudyDiary
                             Console.WriteLine("{0}. {1}", topic.Id, topic.Title.ToUpper());
                         }
                         Console.Write("\nYour selection: ");
-                        try
-                        {
-                            topicIndex = Convert.ToInt32(Console.ReadLine());
-                            if (topicIndex > 0 || topicIndex <= myTopics.Count())
+                            try
                             {
-                                myTopics[topicIndex-1].Tasks = Diary.NewTask(myTasks.Count());
+                                topicIndex = Convert.ToInt32(Console.ReadLine());
+                                if (topicIndex > 0 || topicIndex <= myTopics.Count())
+                                {
+                                    myTopics[topicIndex-1].Tasks = Diary.NewTask(myTasks.Count());
+                                }
                             }
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e.Message);
-                            break;
-                        }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                                break;
+                            }
                         break;
                     case 4:
+                        Save.SaveAll(myTopics);
                         Environment.Exit(0);
                         break;
                 }
