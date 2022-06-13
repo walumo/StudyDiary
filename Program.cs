@@ -41,7 +41,7 @@ namespace StudyDiary
                 Console.WriteLine("4) Search");
                 Console.WriteLine("5) Delete topics");
                 Console.WriteLine("6) Update topics");
-                Console.WriteLine("7) Remove topics with passed deadlines");
+                Console.WriteLine("7) Clean expired topics");
                 Console.WriteLine("8) Exit application\n");
                 Console.Write("Your selection: ");
 
@@ -103,7 +103,7 @@ namespace StudyDiary
                         Delete.Topic(myTopics);
                         break;
                     case 6:
-                        //update topics
+                        Update.Topics(myTopics);
                         break;
                     case 7:
                         myTopics = Delete.CleanUp(myTopics);
