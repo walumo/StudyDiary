@@ -68,6 +68,7 @@
     <Compile Include="logic\Load.cs" />
     <Compile Include="logic\Save.cs" />
     <Compile Include="logic\Search.cs" />
+    <Compile Include="logic\Update.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

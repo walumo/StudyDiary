@@ -12,7 +12,6 @@ namespace StudyDiary
         {
             int option;
             List<Topic> myTopics = new List<Topic>();
-            //List<Topic> searchResults = new List<Topic>();
 
             try
             {
@@ -24,10 +23,13 @@ namespace StudyDiary
                 Console.ReadKey();
             }
 
-
-
             while (true)
             {
+                //update indexes after crud operations
+                foreach (Topic topic in myTopics)
+                {
+                    topic.Id = myTopics.IndexOf(topic) + 1;
+                }
                 Console.Clear();
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
                 Console.WriteLine("Study Diary v.1.0.0");
@@ -38,13 +40,15 @@ namespace StudyDiary
                 Console.WriteLine("3) Add notes to topics");
                 Console.WriteLine("4) Search");
                 Console.WriteLine("5) Delete topics");
-                Console.WriteLine("6) Exit application\n");
+                Console.WriteLine("6) Update topics");
+                Console.WriteLine("7) Remove topics with passed deadlines");
+                Console.WriteLine("8) Exit application\n");
                 Console.Write("Your selection: ");
 
                 try
                 {
                     string getValue = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 6) continue;
+                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 8) continue;
                     option = Convert.ToInt32(getValue);
                 }
                 catch (Exception)
@@ -99,6 +103,12 @@ namespace StudyDiary
                         Delete.Topic(myTopics);
                         break;
                     case 6:
+                        //update topics
+                        break;
+                    case 7:
+                        myTopics = Delete.CleanUp(myTopics);
+                        break;
+                    case 8:
                         Save.SaveAll(myTopics);
                         Environment.Exit(0);
                         break;
