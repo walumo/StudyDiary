@@ -48,6 +48,41 @@ namespace StudyDiary
             Console.Write("Press enter to continue...");
             Console.ReadKey();
         }
+
+        public static void ShowTopics(Topic topic)
+        {
+            Console.Clear();
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine("YOUR TOPICS:");
+            Console.BackgroundColor = ConsoleColor.Black;
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Topic number: {0}", topic.Id);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("****************");
+            Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(topic.Title.ToUpper()); Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine($"To master (hours): {topic.EstimatedTimeToMaster}");
+            Console.WriteLine($"Date to be completed: {topic.CompletionDate}");
+            Console.WriteLine("Time until completion: {0}", topic.CompletionDate - DateTime.Now);
+            Console.WriteLine("Hours spent: {0}", topic.TimeSpent);
+            Console.WriteLine("----------------");
+            Console.WriteLine("Description: {0}\n", topic.Description);
+
+            Console.WriteLine("Tasks: \n");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.Write(topic.Tasks.Title.ToUpper());
+            Console.WriteLine(" || Priority: {0}", topic.Tasks.PriorityProperty);
+            Console.ForegroundColor = ConsoleColor.White;
+            foreach (string note in topic.Tasks.Notes)
+            {
+                Console.WriteLine("- {0}", note);
+            }
+            Console.WriteLine("\nSource(s) used: {0}\n", topic.Source);
+
+            Console.Write("Press enter to continue...");
+            Console.ReadKey();
+
+        }
         //Add topics
         public static Topic NewTopic(List<Topic> list)
         {

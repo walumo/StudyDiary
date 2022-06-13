@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyDiary
 {
@@ -18,6 +14,5 @@ namespace StudyDiary
         public bool inProgress { get; set; } = false;
         public DateTime CompletionDate { get; set; }
         public Task Tasks { get; set; } = new Task();
-
     }
 }

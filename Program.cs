@@ -6,13 +6,13 @@ using System.Linq;
 namespace StudyDiary
 {
 
-    class Program
+    static class Program
     {
         static void Main(string[] args)
         {
-
             int option;
             List<Topic> myTopics = new List<Topic>();
+            //List<Topic> searchResults = new List<Topic>();
 
             try
             {
@@ -23,6 +23,9 @@ namespace StudyDiary
                 Console.Write("Something went wrong: " + ex.Message);
                 Console.ReadKey();
             }
+
+
+
             while (true)
             {
                 Console.Clear();
@@ -33,13 +36,14 @@ namespace StudyDiary
                 Console.WriteLine("1) Enter new topic");
                 Console.WriteLine("2) List your topics");
                 Console.WriteLine("3) Add notes to topics");
-                Console.WriteLine("4) Exit application\n");
+                Console.WriteLine("4) Search");
+                Console.WriteLine("5) Exit application\n");
                 Console.Write("Your selection: ");
 
                 try
                 {
                     string getValue = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 4) continue;
+                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 5) continue;
                     option = Convert.ToInt32(getValue);
                 }
                 catch (Exception)
@@ -50,6 +54,8 @@ namespace StudyDiary
                     Console.ReadKey();
                     continue;
                 }
+
+
 
                 switch (option)
                 {
@@ -85,6 +91,10 @@ namespace StudyDiary
                         }
                         break;
                     case 4:
+                        Console.Clear();
+                        Search.Topic(myTopics);
+                        break;
+                    case 5:
                         Save.SaveAll(myTopics);
                         Environment.Exit(0);
                         break;
