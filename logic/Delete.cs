@@ -6,25 +6,44 @@ using System.Threading.Tasks;
 
 namespace StudyDiary
 {
-    class Delete
+    static class Delete
     {
-        public static void Topic(List<Topic> list)
+        public static List<Topic> Topic(List<Topic> list)
         {
-            //delete specific topic
+            while (true)
+            {
+                Console.Clear();
+                foreach (Topic topic in list)
+                {
+                    Console.WriteLine(topic.Id + ". " + topic.Title);
+                }
+                Console.Write("\nChoose topic to delete (leave blank to return): ");
+                string input = Console.ReadLine();
+                if (String.IsNullOrWhiteSpace(input)) return list;
+                if (!String.IsNullOrWhiteSpace(input) && !int.TryParse(input, out int result) || Convert.ToInt32(input) < 0 || Convert.ToInt32(input) > list.Count())
+                {
+                    Console.WriteLine("Invalid input!");
+                    Console.ReadKey();
+                }
+                else
+                {
+                    list.RemoveAt(Convert.ToInt32(input)-1);
+                }
+            }
         }
         public static void Tasks(List<Topic> list)
         {
             //delete tasks
         }
-        public static void All(List<Topic> list)
+        public static List<Topic> All(List<Topic> list)
         {
-            //delete all topics and tasks
+            list.Clear();
+            return list;
         }
 
-        public static void CleanUp(List<Topic> list)
+        public static IEnumerable<Topic> CleanUp(List<Topic> list)
         {
-            //clean up topics and tasks that are done or too far past deadline
-            //Save to a history file??? Stack()???
+            return list.Where(topic => topic.CompletionDate.CompareTo(DateTime.Now) > 0);
         }
     }
 }
