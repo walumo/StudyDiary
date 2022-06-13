@@ -15,10 +15,12 @@ namespace StudyDiary
                 Console.Clear();
                 foreach (Topic topic in list)
                 {
+                    topic.Id = list.IndexOf(topic)+1;
                     Console.WriteLine(topic.Id + ". " + topic.Title);
                 }
-                Console.Write("\nChoose topic to delete (leave blank to return): ");
+                Console.Write("\nChoose topic to delete (blank to return, 'all' to delete all topics): ");
                 string input = Console.ReadLine();
+                if (string.Equals(input, "all", StringComparison.OrdinalIgnoreCase)) { Delete.All(list); return list; }
                 if (String.IsNullOrWhiteSpace(input)) return list;
                 if (!String.IsNullOrWhiteSpace(input) && !int.TryParse(input, out int result) || Convert.ToInt32(input) < 0 || Convert.ToInt32(input) > list.Count())
                 {
@@ -27,7 +29,7 @@ namespace StudyDiary
                 }
                 else
                 {
-                    list.RemoveAt(Convert.ToInt32(input)-1);
+                    list.Remove(list[Convert.ToInt32(input)]);
                 }
             }
         }
