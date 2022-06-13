@@ -158,11 +158,7 @@ namespace StudyDiary
                         Console.ReadKey();
                     }
                 }
-                Console.Write("Press enter to continue...");
-                Console.ReadKey();
-                Console.Clear();
             }
-
             return list;
         }
     }
