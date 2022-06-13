@@ -29,7 +29,7 @@ namespace StudyDiary
                 }
                 else
                 {
-                    list.Remove(list[Convert.ToInt32(input)]);
+                    list.Remove(list[Convert.ToInt32(input)-1]);
                 }
             }
         }
