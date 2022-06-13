@@ -37,13 +37,14 @@ namespace StudyDiary
                 Console.WriteLine("2) List your topics");
                 Console.WriteLine("3) Add notes to topics");
                 Console.WriteLine("4) Search");
-                Console.WriteLine("5) Exit application\n");
+                Console.WriteLine("5) Delete topics");
+                Console.WriteLine("6) Exit application\n");
                 Console.Write("Your selection: ");
 
                 try
                 {
                     string getValue = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 5) continue;
+                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 6) continue;
                     option = Convert.ToInt32(getValue);
                 }
                 catch (Exception)
@@ -95,6 +96,9 @@ namespace StudyDiary
                         Search.Topic(myTopics);
                         break;
                     case 5:
+                        Delete.Topic(myTopics);
+                        break;
+                    case 6:
                         Save.SaveAll(myTopics);
                         Environment.Exit(0);
                         break;
