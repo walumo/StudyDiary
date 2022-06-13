@@ -22,7 +22,11 @@ namespace StudyDiary
             if (!String.IsNullOrWhiteSpace(input) && int.TryParse(input, out int result))
             {
                 var searchResults = list.Where(x => x.Id == Convert.ToInt32(input));
-
+                if (searchResults.Count() <= 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"No results for ID: {input}");
+                }
                 foreach (var topic in searchResults)
                 {
                     Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -57,6 +61,7 @@ namespace StudyDiary
                 }
                 Console.Write("Press enter to continue...");
                 Console.ReadKey();
+
             }
             else if (!String.IsNullOrWhiteSpace(input))
             {
@@ -67,7 +72,7 @@ namespace StudyDiary
                     Console.Clear();
                     Console.WriteLine($"No results for {input}");
                     Console.Write("Press enter to continue...");
-                    Console.ReadKey(); 
+                    Console.ReadKey();
                 }
                 else
                 {
@@ -107,8 +112,6 @@ namespace StudyDiary
                     Console.ReadKey();
                 }
             }
-
-            
         }
         public static void Task(List<Topic> list)
         {

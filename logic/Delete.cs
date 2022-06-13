@@ -16,7 +16,7 @@ namespace StudyDiary
                 foreach (Topic topic in list)
                 {
                     topic.Id = list.IndexOf(topic)+1;
-                    Console.WriteLine(topic.Id + ". " + topic.Title);
+                    Console.WriteLine(topic.Id + ". " + topic.Title.ToUpper());
                 }
                 Console.Write("\nChoose topic to delete (blank to return, 'all' to delete all topics): ");
                 string input = Console.ReadLine();
@@ -43,9 +43,11 @@ namespace StudyDiary
             return list;
         }
 
-        public static IEnumerable<Topic> CleanUp(List<Topic> list)
+        public static List<Topic> CleanUp(List<Topic> list)
         {
-            return list.Where(topic => topic.CompletionDate.CompareTo(DateTime.Now) > 0);
+            var buffer = list.Where(topic => topic.CompletionDate.CompareTo(DateTime.Now) > 0);
+
+            return buffer.ToList();
         }
     }
 }
