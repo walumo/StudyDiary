@@ -169,6 +169,7 @@ namespace StudyDiary
             List<string> commands = new List<string>();
             List<string> pointers = new List<string>();
             bool commandsValid = false;
+            Console.Clear();
 
             foreach (Topic topic in list)
             {
@@ -213,6 +214,7 @@ namespace StudyDiary
             else
             {
                 Console.WriteLine("Invalid command!!!");
+                Console.ReadKey();
             }
             return list;
         }

@@ -23,8 +23,7 @@ namespace StudyDiary
                 Console.ReadKey();
             }
 
-            Update.Tasks(myTopics);
-            Console.ReadKey();
+            
             while (true)
             {
                 //update indexes after crud operations
@@ -44,13 +43,14 @@ namespace StudyDiary
                 Console.WriteLine("5) Delete topics");
                 Console.WriteLine("6) Update topics");
                 Console.WriteLine("7) Clean expired topics");
-                Console.WriteLine("8) Save & exit\n");
+                Console.WriteLine("8) Manage notes");
+                Console.WriteLine("9) Save & exit\n");
                 Console.Write("Your selection: ");
 
                 try
                 {
                     string getValue = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 8) continue;
+                    if (String.IsNullOrWhiteSpace(getValue) || Convert.ToInt32(getValue) < 1 || Convert.ToInt32(getValue) > 9) continue;
                     option = Convert.ToInt32(getValue);
                 }
                 catch (Exception)
@@ -111,6 +111,9 @@ namespace StudyDiary
                         myTopics = Delete.CleanUp(myTopics);
                         break;
                     case 8:
+                        Update.Tasks(myTopics);
+                        break;
+                    case 9:
                         Save.SaveAll(myTopics);
                         Environment.Exit(0);
                         break;
