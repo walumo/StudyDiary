@@ -19,10 +19,12 @@ namespace StudyDiary
             }
             catch (Exception ex)
             {
-                Console.Write("Something went wrong: " + ex.Message);
+                Console.Write("Could not load file: " + ex.Message);
                 Console.ReadKey();
             }
 
+            Update.Tasks(myTopics);
+            Console.ReadKey();
             while (true)
             {
                 //update indexes after crud operations
