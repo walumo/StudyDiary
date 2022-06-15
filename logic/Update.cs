@@ -165,58 +165,63 @@ namespace StudyDiary
         }
         public static List<Topic> Tasks(List<Topic> list)
         {
+            List<Topic> topicsWithNotes = list.Where(p => p.Tasks.Notes.Count() > 0).ToList();
             string input;
             List<string> commands = new List<string>();
             List<string> pointers = new List<string>();
             bool commandsValid = false;
-            Console.Clear();
-
-            foreach (Topic topic in list)
+            while (true)
             {
-                if(topic.Tasks.Notes.Count > 0)
+                Console.Clear();
+
+                foreach (Topic topic in list)
                 {
-                    Console.BackgroundColor = ConsoleColor.DarkBlue;
-                    Console.WriteLine("TOPIC {0}: {1}", topic.Id, topic.Title.ToUpper());
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.WriteLine(topic.Tasks.Title.ToUpper());
-                    foreach (string task in topic.Tasks.Notes)
+                    if (topic.Tasks.Notes.Count > 0)
                     {
-                        Console.WriteLine("{0}.{1} {2}", topic.Id, topic.Tasks.Notes.IndexOf(task) + 1, topic.Tasks.Notes[topic.Tasks.Notes.IndexOf(task)]);
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        Console.WriteLine("TOPIC {0}: {1}", topic.Id, topic.Title.ToUpper());
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.WriteLine(topic.Tasks.Title.ToUpper());
+                        foreach (string task in topic.Tasks.Notes)
+                        {
+                            Console.WriteLine("{0}.{1} {2}", topic.Id, topic.Tasks.Notes.IndexOf(task) + 1, topic.Tasks.Notes[topic.Tasks.Notes.IndexOf(task)]);
+                        }
+                        Console.WriteLine(Environment.NewLine);
+
                     }
-                    Console.WriteLine(Environment.NewLine);
-
                 }
-            }
 
-            Console.WriteLine("'remove topic.task' (ex. remove 2.1) to remove task,");
-            Console.WriteLine("'update topic.task' (ex. update 2.1) to update task,");
-            Console.Write("Enter commands: ");
-            input = Console.ReadLine().Trim().ToLower();
+                Console.WriteLine("'remove topic.task' (ex. remove 2.1) to remove notes,");
+                Console.WriteLine("'update topic.task' (ex. update 2.1) to update notes,");
+                Console.Write("Enter commands (blank to return): ");
+                input = Console.ReadLine().Trim().ToLower();
 
-            if (String.IsNullOrWhiteSpace(input)) return list;
-            if (input.Contains(" ") && input.Contains("."))
-            {
-                commands = input.Split(' ').ToList();
-                pointers = commands[1].Split('.').ToList();
-                commandsValid = true;
-            }
-
-            if (commandsValid == true && (commands[0] == "remove" || commands[0] == "update") && int.TryParse(pointers[0], out int r1) && int.TryParse(pointers[1], out int r2))
-            {
-                if(commands[0]=="remove") list[r1-1].Tasks.Notes.RemoveAt(r2-1);
-                if (commands[0] == "update")
+                if (String.IsNullOrWhiteSpace(input)) return list;
+                if (input.Contains(" ") && input.Contains("."))
                 {
-                    Console.Write("Update task value: ");
-                    list[r1-1].Tasks.Notes[r2-1] = Console.ReadLine();
+                    commands = input.Split(' ').ToList();
+                    pointers = commands[1].Split('.').ToList();
+                    commandsValid = true;
                 }
+
+                if (commandsValid && (commands[0] == "remove" || commands[0] == "update") && int.TryParse(pointers[0], out int r1) && int.TryParse(pointers[1], out int r2))
+                {
+                    if (r1 < 1 || r1 > list.Count() || r1 < 1 || r1 > list[r1-1].Tasks.Notes.Count() || !topicsWithNotes.Contains(list[r1-1])) continue;
+                    if (commands[0] == "remove") list[r1 - 1].Tasks.Notes.RemoveAt(r2 - 1);
+                    if (commands[0] == "update")
+                    {
+                        Console.Write("Update note value for {0}.{1}: ", pointers[0], pointers[1]);
+                        list[r1 - 1].Tasks.Notes[r2 - 1] = Console.ReadLine();
+                    }
+                }
+
+                else
+                {
+                    Console.WriteLine("Invalid command!!!");
+                    Console.ReadKey();
+                }
+                return list; 
             }
-            
-            else
-            {
-                Console.WriteLine("Invalid command!!!");
-                Console.ReadKey();
-            }
-            return list;
         }
     }
 }

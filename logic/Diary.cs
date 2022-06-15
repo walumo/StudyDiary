@@ -100,7 +100,7 @@ namespace StudyDiary
             buffer.Description = Console.ReadLine();
 
             while (true)
-            { //if user gives no input, or TryParse returns false, enter value 1 to EstimatedTimeToMaster
+            {
                 Console.Write("Enter estimated time to master: ");
                 string str = Console.ReadLine();
                 if (String.IsNullOrWhiteSpace(str) || !Double.TryParse(str, out double result)) { buffer.EstimatedTimeToMaster = 1; break; }
