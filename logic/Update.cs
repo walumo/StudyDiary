@@ -206,12 +206,13 @@ namespace StudyDiary
 
                 if (commandsValid && (commands[0] == "remove" || commands[0] == "update") && int.TryParse(pointers[0], out int r1) && int.TryParse(pointers[1], out int r2))
                 {
-                    if (r1 < 1 || r1 > list.Count() || r1 < 1 || r1 > list[r1-1].Tasks.Notes.Count() || !topicsWithNotes.Contains(list[r1-1])) continue;
+                    if (r1 < 1 || r1 > list.Count() || r2 < 1 || r2 > list[r1-1].Tasks.Notes.Count() || !topicsWithNotes.Contains(list[r1-1])) continue;
                     if (commands[0] == "remove") list[r1 - 1].Tasks.Notes.RemoveAt(r2 - 1);
                     if (commands[0] == "update")
                     {
                         Console.Write("Update note value for {0}.{1}: ", pointers[0], pointers[1]);
                         list[r1 - 1].Tasks.Notes[r2 - 1] = Console.ReadLine();
+                        continue;
                     }
                 }
 
