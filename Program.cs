@@ -75,18 +75,22 @@ namespace StudyDiary
                     case 3:
                         int topicIndex;
                         Console.Clear();
+                        Console.BackgroundColor = ConsoleColor.DarkBlue;
                         Console.WriteLine("TOPICS: ");
+                        Console.BackgroundColor = ConsoleColor.Black;
                         Console.WriteLine("---------");
                         Console.WriteLine("Choose a topic to add notes to: ");
                         foreach (Topic topic in myTopics)
                         {
+                            if(topic.Tasks.Notes.Count < 1)
                             Console.WriteLine("{0}. {1}", topic.Id, topic.Title.ToUpper());
                         }
                         Console.Write("\nYour selection: ");
                         try
                         {
+                            List<int> topicsWithoutTasks = (from topic in myTopics where topic.Tasks.Notes.Count() <= 0 select topic.Id).ToList();
                             topicIndex = Convert.ToInt32(Console.ReadLine());
-                            if (topicIndex > 0 || topicIndex <= myTopics.Count())
+                            if(topicsWithoutTasks.Contains(topicIndex))
                             {
                                 myTopics[topicIndex - 1].Tasks = Diary.NewTask(myTopics[topicIndex - 1].Tasks.Notes.Count());
                             }
