@@ -63,11 +63,11 @@ namespace StudyDiary
             Console.Write("Select topic to update (leave blank to return): ");
             
             string input = Console.ReadLine();
-            int index = Convert.ToInt32(input)-1;
-
-            
 
             if (String.IsNullOrWhiteSpace(input)) return list;
+
+            int index = Convert.ToInt32(input)-1;
+
             if (!String.IsNullOrWhiteSpace(input) && int.TryParse(input, out int result))
             {
                 List<int> dtHelper = new List<int>();
@@ -186,7 +186,7 @@ namespace StudyDiary
                         {
                             Console.WriteLine("{0}.{1} {2}", topic.Id, topic.Tasks.Notes.IndexOf(task) + 1, topic.Tasks.Notes[topic.Tasks.Notes.IndexOf(task)]);
                         }
-                        Console.WriteLine(Environment.NewLine);
+                        Console.Write(Environment.NewLine);
 
                     }
                 }
@@ -221,7 +221,6 @@ namespace StudyDiary
                     Console.WriteLine("Invalid command!!!");
                     Console.ReadKey();
                 }
-                return list; 
             }
         }
     }
