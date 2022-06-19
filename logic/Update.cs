@@ -9,7 +9,7 @@ namespace StudyDiary
         internal static void Refresh(List<Topic> list, int index)
         {
             Console.Clear();
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("UPDATING:");
             Console.BackgroundColor = ConsoleColor.Black;
 
@@ -17,7 +17,6 @@ namespace StudyDiary
 
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            // Console.WriteLine("Topic number: {0}", list[index].Id);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("****************");
             Console.Write($"Topic: "); 
@@ -63,7 +62,7 @@ namespace StudyDiary
             {
                 Console.WriteLine(topic.Id + ". " + topic.Title.ToUpper());
             }
-            Console.Write("Select topic to update (leave blank to return): ");
+            Console.Write("\nSelect topic to update (leave blank to return): ");
 
             string input = Console.ReadLine();
 
@@ -73,8 +72,6 @@ namespace StudyDiary
 
             if (!String.IsNullOrWhiteSpace(input) && int.TryParse(input, out int result))
             {
-                List<int> dtHelper = new List<int>();
-                int thisYear = DateTime.Today.Year;
 
                 list[index].Id = list.Count() + 1;
 
@@ -146,9 +143,7 @@ namespace StudyDiary
                                 Refresh(list, index);
                                 string[] dtParser = new string[2];
                                 dtParser = completionTime.Split(':');
-                                list[index].CompletionDate
-                                    .AddHours(Convert.ToDouble(dtParser[0]))
-                                    .AddMinutes(Convert.ToDouble(dtParser[1]));
+                                list[index].CompletionDate = list[index].CompletionDate.AddHours(Convert.ToInt32(dtParser[0])).AddMinutes(Convert.ToInt32(dtParser[1]));
                                 break;
                             }
                             catch (Exception e)

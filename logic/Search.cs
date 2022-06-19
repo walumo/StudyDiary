@@ -26,12 +26,13 @@ namespace StudyDiary
                     Console.Clear();
                     Console.WriteLine($"No results for ID: {input}");
                 }
+
+                Console.BackgroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine("YOUR TOPICS:");
+                Console.BackgroundColor = ConsoleColor.Black;
+
                 foreach (var topic in searchResults)
                 {
-                    Console.BackgroundColor = ConsoleColor.DarkBlue;
-                    Console.WriteLine("YOUR TOPICS:");
-                    Console.BackgroundColor = ConsoleColor.Black;
-
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("Topic number: {0}", topic.Id);
                     Console.ForegroundColor = ConsoleColor.White;
@@ -81,12 +82,12 @@ namespace StudyDiary
                 }
                 else
                 {
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    Console.WriteLine("YOUR TOPICS:");
+                    Console.BackgroundColor = ConsoleColor.Black;
+
                     foreach (var topic in searchResults)
                     {
-                        Console.BackgroundColor = ConsoleColor.DarkBlue;
-                        Console.WriteLine("YOUR TOPICS:");
-                        Console.BackgroundColor = ConsoleColor.Black;
-
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine("Topic number: {0}", topic.Id);
                         Console.ForegroundColor = ConsoleColor.White;

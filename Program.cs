@@ -22,7 +22,6 @@ namespace StudyDiary
                 Console.Write("Could not load file: " + ex.Message);
                 Console.ReadKey();
             }
-
             
             while (true)
             {
@@ -123,7 +122,6 @@ namespace StudyDiary
                         break;
                 }
             }
-
         }
     }
 }

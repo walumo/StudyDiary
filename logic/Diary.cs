@@ -96,9 +96,7 @@ namespace StudyDiary
         }
         public static Topic NewTopic(List<Topic> list)
         {
-            List<int> dtHelper = new List<int>();
             Topic buffer = new Topic();
-            int thisYear = DateTime.Today.Year;
 
             buffer.Id = list.Count() + 1;
 
@@ -158,14 +156,14 @@ namespace StudyDiary
                 {
                     Console.Write("Enter time for completion (hh:mm): ");
                     string str = Console.ReadLine();
-                    if (String.IsNullOrWhiteSpace(str)) { buffer.CompletionDate.AddHours(12); break; }
+                    if (String.IsNullOrWhiteSpace(str)) { buffer.CompletionDate = buffer.CompletionDate.AddHours(12); break; }
                     else
                     {
                         try
                         {
                             string[] dtParser = new string[2];
                             dtParser = str.Split(':');
-                            buffer.CompletionDate.AddHours(Convert.ToDouble(dtParser[0])).AddMinutes(Convert.ToDouble(dtParser[1]));
+                            buffer.CompletionDate = buffer.CompletionDate.AddHours(Convert.ToDouble(dtParser[0])).AddMinutes(Convert.ToDouble(dtParser[1]));
                             break;
                         }
                         catch (Exception e)

@@ -11,6 +11,10 @@ namespace StudyDiary
             while (true)
             {
                 Console.Clear();
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("DELETING:");
+                Console.BackgroundColor = ConsoleColor.Black;
+
                 foreach (Topic topic in list)
                 {
                     topic.Id = list.IndexOf(topic) + 1;
