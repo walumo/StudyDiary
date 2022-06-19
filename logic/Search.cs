@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace StudyDiary
 {
@@ -37,10 +36,16 @@ namespace StudyDiary
                     Console.WriteLine("Topic number: {0}", topic.Id);
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("****************");
-                    Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(topic.Title.ToUpper()); Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write($"Topic: "); 
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine(topic.Title.ToUpper()); 
+                    Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine($"To master (hours): {topic.EstimatedTimeToMaster}");
                     Console.WriteLine($"Date to be completed: {topic.CompletionDate}");
-                    Console.WriteLine("Time until completion: {0}", topic.CompletionDate - DateTime.Now);
+                    Console.WriteLine("Time until completion: {0} days, {1} hours, {2} minutes",
+                        (topic.CompletionDate - DateTime.Now).Days,
+                        (topic.CompletionDate - DateTime.Now).Hours,
+                        (topic.CompletionDate - DateTime.Now).Minutes);
                     Console.WriteLine("Hours spent: {0}", topic.TimeSpent);
                     Console.WriteLine("----------------");
                     Console.WriteLine("Description: {0}\n", topic.Description);
@@ -65,7 +70,7 @@ namespace StudyDiary
             }
             else if (!String.IsNullOrWhiteSpace(input))
             {
-                var searchResults = list.Where(x => System.Text.RegularExpressions.Regex.IsMatch(x.Title, input, System.Text.RegularExpressions.RegexOptions.IgnoreCase));
+                var searchResults = list.Where(x => Regex.IsMatch(x.Title, input, RegexOptions.IgnoreCase));
 
                 if (searchResults.Count() <= 0)
                 {
@@ -86,10 +91,16 @@ namespace StudyDiary
                         Console.WriteLine("Topic number: {0}", topic.Id);
                         Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("****************");
-                        Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(topic.Title.ToUpper()); Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write($"Topic: ");
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine(topic.Title.ToUpper());
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine($"To master (hours): {topic.EstimatedTimeToMaster}");
                         Console.WriteLine($"Date to be completed: {topic.CompletionDate}");
-                        Console.WriteLine("Time until completion: {0}", topic.CompletionDate - DateTime.Now);
+                        Console.WriteLine("Time until completion: {0} days, {1} hours, {2} minutes",
+                            (topic.CompletionDate - DateTime.Now).Days,
+                            (topic.CompletionDate - DateTime.Now).Hours,
+                            (topic.CompletionDate - DateTime.Now).Minutes);
                         Console.WriteLine("Hours spent: {0}", topic.TimeSpent);
                         Console.WriteLine("----------------");
                         Console.WriteLine("Description: {0}\n", topic.Description);
@@ -112,10 +123,6 @@ namespace StudyDiary
                     Console.ReadKey();
                 }
             }
-        }
-        public static void Task(List<Topic> list)
-        {
-            //search task by id or string
         }
     }
 }

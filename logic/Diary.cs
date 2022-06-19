@@ -6,7 +6,6 @@ namespace StudyDiary
 {
     static class Diary
     {
-        //List topics
         public static void ShowTopics(List<Topic> list)
         {
             Console.Clear();
@@ -22,10 +21,16 @@ namespace StudyDiary
                 Console.WriteLine("Topic number: {0}", topic.Id);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("****************");
-                Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(topic.Title.ToUpper()); Console.ForegroundColor = ConsoleColor.White;
+                Console.Write($"Topic: "); 
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine(topic.Title.ToUpper());
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"To master (hours): {topic.EstimatedTimeToMaster}");
                 Console.WriteLine($"Date to be completed: {topic.CompletionDate}");
-                Console.WriteLine("Time until completion: {0}", topic.CompletionDate-DateTime.Now);
+                Console.WriteLine("Time until completion: {0} days, {1} hours, {2} minutes",
+                    (topic.CompletionDate - DateTime.Now).Days,
+                    (topic.CompletionDate - DateTime.Now).Hours,
+                    (topic.CompletionDate - DateTime.Now).Minutes);
                 Console.WriteLine("Hours spent: {0}", topic.TimeSpent);
                 Console.WriteLine("----------------");
                 Console.WriteLine("Description: {0}\n", topic.Description);
@@ -60,10 +65,16 @@ namespace StudyDiary
             Console.WriteLine("Topic number: {0}", topic.Id);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("****************");
-            Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(topic.Title.ToUpper()); Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($"Topic: "); 
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine(topic.Title.ToUpper());
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"To master (hours): {topic.EstimatedTimeToMaster}");
             Console.WriteLine($"Date to be completed: {topic.CompletionDate}");
-            Console.WriteLine("Time until completion: {0}", topic.CompletionDate - DateTime.Now);
+            Console.WriteLine("Time until completion: {0} days, {1} hours, {2} minutes",
+                (topic.CompletionDate - DateTime.Now).Days,
+                (topic.CompletionDate - DateTime.Now).Hours,
+                (topic.CompletionDate - DateTime.Now).Minutes);
             Console.WriteLine("Hours spent: {0}", topic.TimeSpent);
             Console.WriteLine("----------------");
             Console.WriteLine("Description: {0}\n", topic.Description);
@@ -83,14 +94,13 @@ namespace StudyDiary
             Console.ReadKey();
 
         }
-        //Add topics
         public static Topic NewTopic(List<Topic> list)
         {
             List<int> dtHelper = new List<int>();
             Topic buffer = new Topic();
             int thisYear = DateTime.Today.Year;
 
-            buffer.Id = list.Count()+1;
+            buffer.Id = list.Count() + 1;
 
             Console.Clear();
             Console.Write("Give a title for topic: ");
