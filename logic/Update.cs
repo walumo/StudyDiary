@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudyDiary
 {
@@ -11,7 +9,7 @@ namespace StudyDiary
         internal static void Refresh(List<Topic> list, int index)
         {
             Console.Clear();
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.BackgroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("UPDATING:");
             Console.BackgroundColor = ConsoleColor.Black;
 
@@ -19,13 +17,18 @@ namespace StudyDiary
 
 
             Console.ForegroundColor = ConsoleColor.Blue;
-           // Console.WriteLine("Topic number: {0}", list[index].Id);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("****************");
-            Console.Write($"Topic: "); Console.ForegroundColor = ConsoleColor.Blue; Console.WriteLine(list[index].Title.ToUpper()); Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($"Topic: "); 
+            Console.ForegroundColor = ConsoleColor.Blue; 
+            Console.WriteLine(list[index].Title.ToUpper()); 
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"To master (hours): {list[index].EstimatedTimeToMaster}");
             Console.WriteLine($"Date to be completed: {list[index].CompletionDate}");
-            Console.WriteLine("Time until completion: {0}", list[index].CompletionDate - DateTime.Now);
+            Console.WriteLine("Time until completion: {0} days, {1} hours, {2} minutes",
+                (list[index].CompletionDate - DateTime.Now).Days,
+                (list[index].CompletionDate - DateTime.Now).Hours,
+                (list[index].CompletionDate - DateTime.Now).Minutes);
             Console.WriteLine("Hours spent: {0}", list[index].TimeSpent);
             Console.WriteLine("----------------");
             Console.WriteLine("Description: {0}\n", list[index].Description);
@@ -47,7 +50,6 @@ namespace StudyDiary
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine("Leave option blank to retain old value");
 
-
         }
         public static List<Topic> Topics(List<Topic> list)
         {
@@ -55,47 +57,45 @@ namespace StudyDiary
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.WriteLine("UPDATE:");
             Console.BackgroundColor = ConsoleColor.Black;
-            
+
             foreach (Topic topic in list)
             {
                 Console.WriteLine(topic.Id + ". " + topic.Title.ToUpper());
             }
-            Console.Write("Select topic to update (leave blank to return): ");
-            
+            Console.Write("\nSelect topic to update (leave blank to return): ");
+
             string input = Console.ReadLine();
 
             if (String.IsNullOrWhiteSpace(input)) return list;
 
-            int index = Convert.ToInt32(input)-1;
+            int index = Convert.ToInt32(input) - 1;
 
             if (!String.IsNullOrWhiteSpace(input) && int.TryParse(input, out int result))
             {
-                List<int> dtHelper = new List<int>();
-                int thisYear = DateTime.Today.Year;
 
                 list[index].Id = list.Count() + 1;
-                
+
                 Refresh(list, index);
                 Console.Write("Update topic title: ");
                 string title = Console.ReadLine();
-                if(!String.IsNullOrWhiteSpace(title)) list[index].Title = title;
+                if (!String.IsNullOrWhiteSpace(title)) list[index].Title = title;
 
                 Refresh(list, index);
                 Console.Write("Update topic description: ");
                 string description = Console.ReadLine();
-                if (!String.IsNullOrWhiteSpace(description))list[index].Description = description;
+                if (!String.IsNullOrWhiteSpace(description)) list[index].Description = description;
 
 
                 Refresh(list, index);
                 Console.Write("Update estimated time to master: ");
                 string toMaster = Console.ReadLine();
                 if (!String.IsNullOrWhiteSpace(toMaster)) list[index].EstimatedTimeToMaster = Convert.ToDouble(toMaster);
-                    
+
 
                 Refresh(list, index);
                 Console.Write("Update source used: ");
                 string source = Console.ReadLine();
-                if(!String.IsNullOrWhiteSpace(source))list[index].Source = source;
+                if (!String.IsNullOrWhiteSpace(source)) list[index].Source = source;
 
                 while (true)
                 {
@@ -143,7 +143,7 @@ namespace StudyDiary
                                 Refresh(list, index);
                                 string[] dtParser = new string[2];
                                 dtParser = completionTime.Split(':');
-                                list[index].CompletionDate.AddHours(Convert.ToDouble(dtParser[0])).AddMinutes(Convert.ToDouble(dtParser[1]));
+                                list[index].CompletionDate = list[index].CompletionDate.AddHours(Convert.ToInt32(dtParser[0])).AddMinutes(Convert.ToInt32(dtParser[1]));
                                 break;
                             }
                             catch (Exception e)
@@ -194,9 +194,11 @@ namespace StudyDiary
                 Console.WriteLine("'remove topic.task' (ex. remove 2.1) to remove notes,");
                 Console.WriteLine("'update topic.task' (ex. update 2.1) to update notes,");
                 Console.Write("Enter commands (blank to return): ");
+
                 input = Console.ReadLine().Trim().ToLower();
 
                 if (String.IsNullOrWhiteSpace(input)) return list;
+
                 if (input.Contains(" ") && input.Contains("."))
                 {
                     commands = input.Split(' ').ToList();
@@ -204,10 +206,17 @@ namespace StudyDiary
                     commandsValid = true;
                 }
 
-                if (commandsValid && (commands[0] == "remove" || commands[0] == "update") && int.TryParse(pointers[0], out int r1) && int.TryParse(pointers[1], out int r2))
+                if (commandsValid
+                    && (commands[0] == "remove" || commands[0] == "update")
+                    && int.TryParse(pointers[0], out int r1)
+                    && int.TryParse(pointers[1], out int r2))
                 {
-                    if (r1 < 1 || r1 > list.Count() || r2 < 1 || r2 > list[r1-1].Tasks.Notes.Count() || !topicsWithNotes.Contains(list[r1-1])) continue;
+                    if (r1 < 1 || r1 > list.Count
+                        || r2 < 1 || r2 > list[r1 - 1].Tasks.Notes.Count
+                        || !topicsWithNotes.Contains(list[r1 - 1])) continue;
+
                     if (commands[0] == "remove") list[r1 - 1].Tasks.Notes.RemoveAt(r2 - 1);
+
                     if (commands[0] == "update")
                     {
                         Console.Write("Update note value for {0}.{1}: ", pointers[0], pointers[1]);
@@ -215,7 +224,6 @@ namespace StudyDiary
                         continue;
                     }
                 }
-
                 else
                 {
                     Console.WriteLine("Invalid command!!!");
